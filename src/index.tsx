@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 
+// eslint-disable-next-line react-refresh/only-export-components
 const Settings = {
   OffersCount: 5,
 } as const;
