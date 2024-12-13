@@ -35,7 +35,8 @@ function App({offersCount}: AppProps): JSX.Element {
             }
           />
           <Route
-            path={AppRoute.DevOfferLogged}
+
+            path={AppRoute.Offer}
             element={<Offer/>}
           />
           <Route
