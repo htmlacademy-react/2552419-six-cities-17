@@ -1,24 +1,18 @@
+import { Link } from 'react-router-dom';
+import Logo from '../../components/logo/logo';
 import { Helmet } from 'react-helmet-async';
 
-function Login(): JSX.Element {
+function AuthScreen(): JSX.Element {
   return (
     <div className="page page--gray page--login">
       <Helmet>
-        <title>6 cities - Login</title>
+        <title>Логин</title>
       </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img
-                  className="header__logo"
-                  src="img/logo.svg"
-                  alt="6 cities logo"
-                  width={81}
-                  height={41}
-                />
-              </a>
+              <Logo></Logo>
             </div>
           </div>
         </div>
@@ -35,7 +29,7 @@ function Login(): JSX.Element {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  required
+                  // required=""
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
@@ -45,26 +39,28 @@ function Login(): JSX.Element {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  required
+                  // required=""
                 />
               </div>
-              <button className="login__submit form__submit button" type="submit">
+              <button
+                className="login__submit form__submit button"
+                type="submit"
+              >
                 Sign in
               </button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" to="#">
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>
       </main>
     </div>
-
   );
 }
 
-export default Login;
+export default AuthScreen;

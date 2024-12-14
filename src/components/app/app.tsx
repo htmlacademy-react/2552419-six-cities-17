@@ -1,48 +1,74 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
+import MainScreen from '../../pages/main-screen/main-screen';
+import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
+import OfferScreen from '../../pages/offer-screen/offer-screen';
+import AuthScreen from '../../pages/auth-screen/auth-screen';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import Offer from '../../pages/offer/offer';
-import Favorites from '../../pages/favorites/favorites';
-import Login from '../../pages/login/login';
-import Error from '../../pages/error/error';
 import PrivateRoute from '../private-route/private-route';
 import { HelmetProvider } from 'react-helmet-async';
-import Main from '../../pages/main/main';
-type AppProps = {
-  offersCount: number;
-}
+import { Offers } from '../../types/offers';
+import { FullInfoOffer } from '../../types/offer';
+import { useState } from 'react';
 
-function App({offersCount}: AppProps): JSX.Element {
+type AppScreenProps = {
+  offers: Offers;
+  fullOffer: FullInfoOffer;
+};
+
+function App({ offers, fullOffer }: AppScreenProps): JSX.Element {
+  const citiesCardClassName = 'cities';
+  const favoritesCardClassName = 'favorites';
+  const nearCardClassName = 'near-places';
+
+  const [isActiveId, setIsActiveId] = useState<string | null>(null);
+
+  // eslint-disable-next-line no-console
+  console.log(isActiveId);
+
+  const handleActiveIdChange = (id: string | null) => {
+    setIsActiveId(id);
+  };
+
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<Main offersCount={offersCount}/>}
-          />
-          <Route
-            path={AppRoute.Login}
-            element={<Login/>}
+            element={
+              <MainScreen
+                offers={offers}
+                cardClassName={citiesCardClassName}
+                onHandleActiveIdChange={handleActiveIdChange}
+              />
+            }
           />
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
-              >
-                <Favorites/>
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <FavoritesScreen
+                  offers={offers}
+                  cardClassName={favoritesCardClassName}
+                  onHandleActiveIdChange={handleActiveIdChange}
+                />
               </PrivateRoute>
             }
           />
           <Route
-
             path={AppRoute.Offer}
-            element={<Offer/>}
+            element={
+              <OfferScreen
+                cardClassName={nearCardClassName}
+                offers={offers}
+                fullOffer={fullOffer}
+                onHandleActiveIdChange={handleActiveIdChange}
+              />
+            }
           />
-          <Route
-            path='*'
-            element={<Error/>}
-          />
+          <Route path={AppRoute.Login} element={<AuthScreen />} />
+          <Route path="*" element={<NotFoundScreen />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
